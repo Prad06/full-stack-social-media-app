@@ -18,3 +18,4 @@ class RefreshViewSet(viewsets.ViewSet, TokenRefreshView):
             raise InvalidToken(e.args[0])
 
         return Response(serializer.validated_data, status=status.HTTP_200_OK)
+    
