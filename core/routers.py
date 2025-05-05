@@ -1,8 +1,9 @@
-from rest_framework import routers
+from rest_framework_nested import routers
 
 from core.auth.viewsets import LoginViewSet, RefreshViewSet, RegisterViewSet
 from core.user.viewsets import UserViewSet
 from core.post.viewsets import PostViewSet
+from core.comment.viewsets import CommentViewSet
 
 router = routers.SimpleRouter()
 
@@ -27,6 +28,7 @@ router.register(r"user", UserViewSet, basename="user")
 
 router.register(r"post", PostViewSet, basename="post")
 
-urlpatterns = [
-    *router.urls,
-]
+posts_router = routers.NestedSimpleRouter(router, r"post", lookup="post")
+posts_router.register(r"comment", CommentViewSet, basename="post-comment")
+
+urlpatterns = [*router.urls, *posts_router.urls]
